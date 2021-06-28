@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Payments from './Payments';
 
 class Header extends Component {
     // helper method which checks this.props to check user is authenticated or not and send different blob of jsx which shows inside render()
@@ -15,9 +16,11 @@ class Header extends Component {
                     <li><a href="/auth/google">Login With Google</a></li>
                 );
             default:
-                return (
-                    <li><a href="/api/logout">Logout</a></li>
-                );;
+                return [
+                    <li key="payment"><Payments /></li>,
+                    <li key="credits" style={{ margin: '0 10px'}}>Credits: {this.props.auth.credits}</li>,
+                    <li key="logout"><a href="/api/logout">Logout</a></li>
+                ];
         }
     }
     render() {
@@ -28,7 +31,7 @@ class Header extends Component {
                         to={this.props.auth ? '/surveys' : '/'} 
                         className="left brand-logo"
                     >
-                        BuddyInsights
+                        Buddy Insights
                         </Link>
                     <ul className="right">
                         {this.renderContent()}
